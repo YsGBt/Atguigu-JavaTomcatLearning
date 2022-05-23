@@ -3,6 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+  <!-- 在上下文参数中配置视图前缀和视图后缀 配置上下文参数-->
+  <context-param>
+    <param-name>view-prefix</param-name>
+    <param-value>/</param-value>
+  </context-param>
+  <context-param>
+    <param-name>view-suffix</param-name>
+    <param-value>.html</param-value>
+  </context-param>
+
+<!--  配置Demo Servlet-->
   <servlet>
     <servlet-name>AddServlet</servlet-name>
     <servlet-class>com.atguigu.servlets.AddServlet</servlet-class>
@@ -11,6 +23,62 @@
     <servlet-name>AddServlet</servlet-name>
     <url-pattern>/add</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>DemoLifeCycleServlet</servlet-name>
+    <servlet-class>com.atguigu.servlets.DemoLifeCycleServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemoLifeCycleServlet</servlet-name>
+    <url-pattern>/demoLifeCycle</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DemoSessionServlet</servlet-name>
+    <servlet-class>com.atguigu.servlets.DemoSessionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemoSessionServlet</servlet-name>
+    <url-pattern>/demoSession</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DemoAttribute01Servlet</servlet-name>
+    <servlet-class>com.atguigu.servlets.DemoAttribute01Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemoAttribute01Servlet</servlet-name>
+    <url-pattern>/demoSetAttribute</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DemoAttribute02Servlet</servlet-name>
+    <servlet-class>com.atguigu.servlets.DemoAttribute02Servlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemoAttribute02Servlet</servlet-name>
+    <url-pattern>/demoGetAttribute</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DemoDispatcherServlet</servlet-name>
+    <servlet-class>com.atguigu.servlets.DemoDispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemoDispatcherServlet</servlet-name>
+    <url-pattern>/demoDispatcher</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DemoRedirectServlet</servlet-name>
+    <servlet-class>com.atguigu.servlets.DemoRedirectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DemoRedirectServlet</servlet-name>
+    <url-pattern>/demoRedirect</url-pattern>
+  </servlet-mapping>
+
   <!--
   1. 用户发请求, action=add
   2. 项目中, web.xml中找到url-pattern = /add -> 第12行

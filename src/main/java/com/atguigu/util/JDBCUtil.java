@@ -1,6 +1,8 @@
 package com.atguigu.util;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,15 +17,22 @@ public abstract class JDBCUtil {
   private static DataSource source;
 
   static {
+    InputStream is = null;
     try {
       Properties pros = new Properties();
       // 这里用JDBCUtil.class.getClassLoader()才能保证在服务器端依旧可以找到配置文件
-      InputStream is = JDBCUtil.class.getClassLoader().getResourceAsStream(
-          "com/atguigu/resources/druid.properties");
+      is = JDBCUtil.class.getClassLoader().getResourceAsStream(
+          "druid.properties");
       pros.load(is);
       source = DruidDataSourceFactory.createDataSource(pros);
     } catch (Exception e) {
       e.printStackTrace();
+    } finally {
+      try {
+        is.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -36,5 +45,9 @@ public abstract class JDBCUtil {
   public static Connection getConnection() throws SQLException {
     Connection connection = source.getConnection();
     return connection;
+  }
+
+  public static void closeDataSource() {
+    ((DruidDataSource) source).close();
   }
 }

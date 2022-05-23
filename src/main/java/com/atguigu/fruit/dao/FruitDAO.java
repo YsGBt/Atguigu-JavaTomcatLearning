@@ -33,13 +33,13 @@ public interface FruitDAO {
   boolean deleteFruitByID(Connection conn, int fid);
 
   /**
-   * 从数据库中根据 Fruit 的 fname 删除一条记录
+   * 从数据库中根据 Fruit 的 fname 删除所有相关记录
    *
    * @param conn
    * @param name
    * @return
    */
-  boolean deleteFruitByName(Connection conn, String name);
+  int deleteFruitByName(Connection conn, String name);
 
   /**
    * 根据 Fruit 的 id 从数据库中查询出一条记录
@@ -51,7 +51,7 @@ public interface FruitDAO {
   Fruit getFruitByID(Connection conn, int fid);
 
   /**
-   * 根据 Fruit 的 fname 从数据库中查询出一条记录
+   * 根据 Fruit 的 fname 从数据库中查询出第一条符合的记录
    *
    * @param conn
    * @param name
