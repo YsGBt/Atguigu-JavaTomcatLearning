@@ -84,6 +84,7 @@
     如果不得不定义成员变量，那么：
       a. 不要去修改成员变量的值
       b. 不要去根据成员变量的值去做逻辑判断
+  6) Servlet3.0开始支持注解L @WebServlet("/...")
 
 //////////
 4. Http协议
@@ -127,7 +128,7 @@
     - session保存作用域是和具体的某一个session对应的
     - 常用的API:
       void session.setAttribute(k, v)
-      Object session.getAttribute(k, v)
+      Object session.getAttribute(k)
       void session.removeAttribute(k)
 
 //////////
@@ -144,7 +145,7 @@
   2) 客户端重定向: response.sendRedirect("...");
     - 两次请求响应的过程。客户端肯定知道URL有变化
     - 地址栏有变化
-     |-----| ------request1------>   |--------|
+     |-----| ------request1------->  |--------|
      |客户端| <----sendRedirect-----  |Servlet1|
      |-----|                         |--------|
        ^ |
@@ -157,9 +158,9 @@
 7. Thymeleaf - 视图模版技术
   1) 添加thymeleaf的jar包
 
-  2) 在web.xml文件中添加配置
-    - 配置前缀     view-prefix
-    - 怕而至后缀   view-suffix
+  2) 在web.xml文件中添加配置 <context-param>
+    - 配置前缀   view-prefix
+    - 配置后缀   view-suffix
 
   3) 新建一个Servlet类ViewBaseServlet
 
@@ -172,6 +173,22 @@
   // 物理视图名称: view-prefix + 逻辑视图名称 + view-suffix
   // 所以真实的视图名称是: /index.html
   super.processTemplate("index", req, resp);
+
+  6) 使用thymeleaf的标签
+  th:if , th:unless , th:each , th:text , th:href="@{}"
+
+//////////
+8. 保存作用域
+  1) 原始情况下，保存作用域我们可以认为有四个:
+    - page(页面级别，现在几乎不用)
+    - request(一次请求响应范围)
+    - session(一次会话范围)
+    - application(整个应用程序范围) 一次应用程序范围内有效
+
+9. 路径问题
+  1) 相对路径
+  2) 绝对路径
+
 
 
 200: 正常响应
