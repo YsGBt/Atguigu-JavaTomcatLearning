@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style/index.css">
     <!--    <script type="text/javascript" src="js/javascript03.js"></script>-->
+    <script type="text/javascript" src="js/index.js"></script>
 </head>
 
 <body>
     <div id="div_container">
         <div id="div_fruit_list">
             <p class="center f30">欢迎使用水果库存后台管理系统</p>
+            <div class="add"><a th:href="@{/add.do}">添加新库存记录</a></div>
             <table id="tbl_fruit">
                 <tr>
                     <th>名称</th>
@@ -27,7 +29,10 @@
                     </td>
                     <td th:text="${fruit.price}">5</td>
                     <td th:text="${fruit.fcount}">20</td>
-                    <td><img class="del_img" src="imgs/wastebasket.png" /></td>
+                    <td>
+                        <!-- <img class="del_img" src="imgs/wastebasket.png" th:onclick="'delFruit('+${fruit.fid} +')'" /> -->
+                        <img class="del_img" src="imgs/wastebasket.png" th:onclick="|delFruit(${fruit.fid})|" />
+                    </td>
                 </tr>
             </table>
         </div>

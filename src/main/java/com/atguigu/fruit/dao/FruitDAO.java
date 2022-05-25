@@ -15,6 +15,16 @@ public interface FruitDAO {
   List<Fruit> getFruits(Connection conn);
 
   /**
+   * 从数据库中查询出指定页码上的信息，每页显示数量由fruitsPerPage决定
+   *
+   * @param conn
+   * @param fruitsPerPage
+   * @param pageNo Page Number, start form 1
+   * @return
+   */
+  List<Fruit> getFruitsByPage(Connection conn, int fruitsPerPage, int pageNo);
+
+  /**
    * 向数据库中插入一条记录
    *
    * @param conn

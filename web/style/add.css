@@ -9,42 +9,6 @@ div {
     float: left;
 }
 
-a {
-    text-decoration: none;
-    color: #000;
-    cursor: pointer;
-}
-
-.add {
-    float: none;
-    display: inline-block;
-
-    color: #000;
-    border: 1px solid pink;
-    border-radius: 5px;
-
-    margin-left: 240px;
-    padding: 10px;
-
-    transition: 300ms;
-}
-
-.add:hover {
-    background-color: pink;
-}
-
-.add:hover>a {
-    color: #fff;
-}
-
-td>a {
-    transition: 500ms;
-}
-
-td>a:hover {
-    color: pink;
-}
-
 #div_container {
     width: 80%;
     height: 100%;
@@ -54,7 +18,7 @@ td>a:hover {
     border-radius: 50px;
 }
 
-#div_fruit_list {
+#div_fruit_list{
     width: 100%;
 }
 
@@ -82,7 +46,7 @@ td>a:hover {
     color: threeddarkshadow;
 }
 
-.del_img {
+.del_img{
     height: 24px;
     width: 24px;
 }
@@ -99,8 +63,7 @@ td>a:hover {
     margin-bottom: 10px;
 }
 
-.add_fruit_div #fbtn,
-.add_fruit_div #freset {
+.add_fruit_div #fbtn, .add_fruit_div #freset {
     width: 90px;
     height: 30px;
 }

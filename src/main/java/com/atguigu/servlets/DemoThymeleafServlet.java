@@ -29,7 +29,7 @@ public class DemoThymeleafServlet extends ViewBaseServlet {
 
       // 获取fruit list
       FruitDAO fruitDAO = new FruitDAOImpl();
-      List<Fruit> fruitList = fruitDAO.getFruits(connection);
+      List<Fruit> fruitList = fruitDAO.getFruitsByPage(connection, 5, 1);
 
       // 保存到session作用域
       HttpSession session = req.getSession();

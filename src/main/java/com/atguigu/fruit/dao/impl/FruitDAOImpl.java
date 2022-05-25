@@ -16,6 +16,17 @@ public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
   }
 
   @Override
+  public List<Fruit> getFruitsByPage(Connection conn, int fruitsPerPage, int pageNo) {
+    if (pageNo <= 0) throw new IllegalArgumentException("Invalid Page Number");
+    if (fruitsPerPage <= 0) throw new IllegalArgumentException("Invalid Number Of Fruit Per Page");
+    int start = fruitsPerPage * (pageNo - 1);
+    // sql limit startNumber(start from 0),displayNumber
+    String sql = "select fid,fname,price,fcount,remark from t_fruit limit ?,?";
+    List<Fruit> beanList = getBeanList(conn, sql, start, fruitsPerPage);
+    return beanList;
+  }
+
+  @Override
   public boolean addFruit(Connection conn, Fruit fruit) {
     String sql = "insert into t_fruit(fname,price,fcount,remark) values(?,?,?,?)";
     int count = update(conn, sql, fruit.getFname(), fruit.getPrice(), fruit.getFcount(),
