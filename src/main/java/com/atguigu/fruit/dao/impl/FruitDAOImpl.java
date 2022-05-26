@@ -17,12 +17,36 @@ public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
 
   @Override
   public List<Fruit> getFruitsByPage(Connection conn, int fruitsPerPage, int pageNo) {
-    if (pageNo <= 0) throw new IllegalArgumentException("Invalid Page Number");
-    if (fruitsPerPage <= 0) throw new IllegalArgumentException("Invalid Number Of Fruit Per Page");
+    if (pageNo <= 0) {
+      throw new IllegalArgumentException("Invalid Page Number");
+    }
+    if (fruitsPerPage <= 0) {
+      throw new IllegalArgumentException("Invalid Number Of Fruit Per Page");
+    }
     int start = fruitsPerPage * (pageNo - 1);
     // sql limit startNumber(start from 0),displayNumber
     String sql = "select fid,fname,price,fcount,remark from t_fruit limit ?,?";
     List<Fruit> beanList = getBeanList(conn, sql, start, fruitsPerPage);
+    return beanList;
+  }
+
+  @Override
+  public List<Fruit> getFruitsByPage(Connection conn, int fruitsPerPage, int pageNo,
+      String keyword) {
+    if (pageNo <= 0) {
+      throw new IllegalArgumentException("Invalid Page Number");
+    }
+    if (fruitsPerPage <= 0) {
+      throw new IllegalArgumentException("Invalid Number Of Fruit Per Page");
+    }
+    if (keyword == null) {
+      throw new IllegalArgumentException("Invalid Keyword");
+    }
+    int start = fruitsPerPage * (pageNo - 1);
+    String match = "%" + keyword + "%";
+    // sql limit startNumber(start from 0),displayNumber
+    String sql = "select fid,fname,price,fcount,remark from t_fruit where fname like ? or remark like ? limit ?,?";
+    List<Fruit> beanList = getBeanList(conn, sql, match, match, start, fruitsPerPage);
     return beanList;
   }
 
@@ -68,5 +92,24 @@ public class FruitDAOImpl extends BaseDAO<Fruit> implements FruitDAO {
     int count = update(conn, sql, fruit.getFname(), fruit.getPrice(), fruit.getFcount(),
         fruit.getRemark(), fruit.getFid());
     return count != 0;
+  }
+
+  @Override
+  public int getFruitCount(Connection conn) {
+    String sql = "select count(*) from t_fruit";
+    int count = ((Number) getValue(conn, sql)).intValue();
+    return count;
+  }
+
+  @Override
+  public int getFruitCount(Connection conn, String keyword) {
+    if (keyword == null) {
+      throw new IllegalArgumentException("Invalid Keyword");
+    }
+    String match = "%" + keyword + "%";
+
+    String sql = "select count(*) from t_fruit where fname like ? or remark like ?";
+    int count = ((Number) getValue(conn, sql, match, match)).intValue();
+    return count;
   }
 }

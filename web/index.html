@@ -12,7 +12,14 @@
     <div id="div_container">
         <div id="div_fruit_list">
             <p class="center f30">欢迎使用水果库存后台管理系统</p>
-            <div class="add"><a th:href="@{/add.do}">添加新库存记录</a></div>
+            <div class="add">
+                <a th:href="@{/add.do}">添加新库存记录</a>
+            </div>
+            <form th:action="@{/index}" method="post" class="search_bar">
+                <input type="hidden" name="oper" value="search">
+                请输入查询关键字: <input type="text" name="keyword" th:value="${session.keyword}">
+                <input type="submit" value="查询"> 
+            </form>
             <table id="tbl_fruit">
                 <tr>
                     <th>名称</th>
@@ -35,6 +42,15 @@
                     </td>
                 </tr>
             </table>
+            <div class="page_chooser">
+                <input type="button" value="首页" th:onclick="|page(1)|" th:disabled="${session.pageNo == 1}">
+                <input type="button" value="上一页" th:onclick="|page(${session.pageNo - 1})|"
+                    th:disabled="${session.pageNo == 1}">
+                <input type="button" value="下一页" th:onclick="|page(${session.pageNo + 1})|"
+                    th:disabled="${session.pageNo == session.pageCount}">
+                <input type="button" value="尾页" th:onclick="|page(${session.pageCount})|"
+                    th:disabled="${session.pageNo == session.pageCount}">
+            </div>
         </div>
     </div>
 </body>

@@ -4,6 +4,7 @@ import com.atguigu.fruit.bean.Fruit;
 import com.atguigu.fruit.dao.FruitDAO;
 import com.atguigu.fruit.dao.impl.FruitDAOImpl;
 import com.atguigu.myssm.myspringmvc.ViewBaseServlet;
+import com.atguigu.myssm.util.StringUtil;
 import com.atguigu.util.JDBCUtil;
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,6 +23,34 @@ public class DemoThymeleafServlet extends ViewBaseServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+    Integer pageNo = 1;
+
+    req.setCharacterEncoding("UTF-8");
+    String oper = req.getParameter("oper");
+    // 如果oper!=null 说明 通过表单的查询按钮点击过来的
+    // 如果oper==null 说明 不是通过表单的查询按钮点击过来的
+    HttpSession session = req.getSession();
+    String keyword = null;
+    if (StringUtil.isNotEmpty(oper) && "search".equals(oper)) {
+      // 说明是点击表单查询发送过来的请求
+      // 此时，pageNo应该还原为1，keyword应该从请求参数中获取
+      keyword = req.getParameter("keyword");
+      if (StringUtil.isEmpty(keyword)) {
+        keyword = "";
+      }
+      session.setAttribute("keyword", keyword);
+    } else {
+      // 说明此处不是点击表单查询发送过来的请求(比如点击下面的上一页下一页或者直接在地址栏输入网址)
+      // 此时keyword应该从session作用域获取
+      String pageNoStr = req.getParameter("pageNo");
+      if (StringUtil.isNotEmpty(pageNoStr)) {
+        pageNo = Integer.parseInt(pageNoStr);
+      }
+      Object keywordObj = session.getAttribute("keyword");
+      keyword = keywordObj == null ? "" : (String) keywordObj;
+    }
+
+    session.setAttribute("pageNo", pageNo);
     Connection connection = null;
     try {
       // 获取数据库链接
@@ -29,10 +58,14 @@ public class DemoThymeleafServlet extends ViewBaseServlet {
 
       // 获取fruit list
       FruitDAO fruitDAO = new FruitDAOImpl();
-      List<Fruit> fruitList = fruitDAO.getFruitsByPage(connection, 5, 1);
+      // 总记录条数
+      int fruitCount = fruitDAO.getFruitCount(connection, keyword);
+      // 总页数
+      int pageCount = (fruitCount + 4) / 5;
+      List<Fruit> fruitList = fruitDAO.getFruitsByPage(connection, 5, pageNo, keyword);
 
       // 保存到session作用域
-      HttpSession session = req.getSession();
+      session.setAttribute("pageCount", pageCount);
       session.setAttribute("fruitList", fruitList);
 
       // 此处的视图名称是 index
@@ -51,5 +84,11 @@ public class DemoThymeleafServlet extends ViewBaseServlet {
       }
 //      JDBCUtil.closeDataSource();
     }
+  }
+
+  @Override
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
+    doGet(req, resp);
   }
 }

@@ -37,6 +37,19 @@ a {
     color: #fff;
 }
 
+.search_bar {
+    float: none;
+    display: inline-block;
+
+    color: #000;
+    border: 1px solid pink;
+    border-radius: 5px;
+
+    margin-bottom: 0px;
+    margin-left: 225px;
+    padding: 9px;
+}
+
 td>a {
     transition: 500ms;
 }
@@ -111,4 +124,19 @@ td>a:hover {
 
 .f30 {
     font-size: 30px;
+}
+
+.page_chooser {
+    float: none;
+    display: inline-block;
+
+    color: #000;
+    border: 1px solid pink;
+    border-radius: 5px;
+
+    margin-left: calc(50% - 106px);
+    margin-top: 10px;
+    padding: 10px;
+
+    transition: 300ms;
 }

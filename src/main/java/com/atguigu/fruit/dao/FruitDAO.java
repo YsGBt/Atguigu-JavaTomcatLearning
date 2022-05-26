@@ -25,6 +25,17 @@ public interface FruitDAO {
   List<Fruit> getFruitsByPage(Connection conn, int fruitsPerPage, int pageNo);
 
   /**
+   *  从数据库中查询出有关keyword的信息，每页显示数量由fruitsPerPage决定
+   *
+   * @param conn
+   * @param fruitsPerPage
+   * @param pageNo
+   * @param keyword
+   * @return
+   */
+  List<Fruit> getFruitsByPage(Connection conn, int fruitsPerPage, int pageNo, String keyword);
+
+  /**
    * 向数据库中插入一条记录
    *
    * @param conn
@@ -77,4 +88,21 @@ public interface FruitDAO {
    * @return
    */
   boolean updateFruit(Connection conn, Fruit fruit);
+
+  /**
+   * 查询数据库中总记录水果条数
+   *
+   * @param conn
+   * @return
+   */
+  int getFruitCount(Connection conn);
+
+  /**
+   *  查询数据库中匹配keyword的水果条数
+   *
+   * @param conn
+   * @param keyword
+   * @return
+   */
+  int getFruitCount(Connection conn, String keyword);
 }
