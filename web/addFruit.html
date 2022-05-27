@@ -11,7 +11,13 @@
     <div id="div_container">
         <div id="div_fruit_list">
             <p class="center f30">新增库存信息</p>
-            <form th:action="@{/add.do}" method="post">
+            <!-- before mvc -->
+            <!-- <form th:action="@{/add.do}" method="post"> -->
+            <!-- after mvc: start change for mvc -->
+            <form th:action='@{/fruit.do}' method="post">
+                <!-- 注意这里是post方法所以需要用隐藏域来对operate进行赋值 -->
+                <input type="hidden" name="operate" value="add">
+                <!-- end change for mvc -->
                 <table id="tbl_fruit">
                     <tr>
                         <th>名称:</th>

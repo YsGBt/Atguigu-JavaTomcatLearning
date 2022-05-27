@@ -13,12 +13,18 @@
         <div id="div_fruit_list">
             <p class="center f30">欢迎使用水果库存后台管理系统</p>
             <div class="add">
-                <a th:href="@{/add.do}">添加新库存记录</a>
+                <!-- before mvc -->
+                <!-- <a th:href="@{/add.do}">添加新库存记录</a> -->
+                <!-- after mvc -->
+                <a th:href="@{/fruit.do(operate='redirectAdd')}">添加新库存记录</a>
             </div>
-            <form th:action="@{/index}" method="post" class="search_bar">
+            <!-- before mvc -->
+            <!-- <form th:action="@{/index}" method="post" class="search_bar"> -->
+            <!-- after mvc -->
+            <form th:action="@{/fruit.do}" method="post" class="search_bar">
                 <input type="hidden" name="oper" value="search">
                 请输入查询关键字: <input type="text" name="keyword" th:value="${session.keyword}">
-                <input type="submit" value="查询"> 
+                <input type="submit" value="查询">
             </form>
             <table id="tbl_fruit">
                 <tr>
@@ -32,8 +38,10 @@
                 </tr>
                 <tr th:if="${not #lists.isEmpty(session.fruitList)}" th:each="fruit : ${session.fruitList}">
                     <!-- <td><a th:href="@{'/edit.do?fid=' + ${fruit.fid}}" th:text="${fruit.fname}">苹果</a></td> -->
-                    <td><a th:href="@{/edit.do(fid=${fruit.fid}, fname=${fruit.fname})}" th:text="${fruit.fname}">苹果</a>
-                    </td>
+                    <!-- before mvc -->
+                    <!-- <td><a th:href="@{/edit.do(fid=${fruit.fid}, fname=${fruit.fname})}" th:text="${fruit.fname}">苹果</a> -->
+                    <!-- after mvc -->
+                    <td><a th:href="@{/fruit.do(fid=${fruit.fid}, operate='edit')}" th:text="${fruit.fname}">苹果</a></td>
                     <td th:text="${fruit.price}">5</td>
                     <td th:text="${fruit.fcount}">20</td>
                     <td>
@@ -47,9 +55,9 @@
                 <input type="button" value="上一页" th:onclick="|page(${session.pageNo - 1})|"
                     th:disabled="${session.pageNo == 1}">
                 <input type="button" value="下一页" th:onclick="|page(${session.pageNo + 1})|"
-                    th:disabled="${session.pageNo == session.pageCount}">
+                    th:disabled="${session.pageNo >= session.pageCount}">
                 <input type="button" value="尾页" th:onclick="|page(${session.pageCount})|"
-                    th:disabled="${session.pageNo == session.pageCount}">
+                    th:disabled="${session.pageNo >= session.pageCount}">
             </div>
         </div>
     </div>
