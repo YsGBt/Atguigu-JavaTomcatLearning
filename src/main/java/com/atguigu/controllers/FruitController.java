@@ -7,8 +7,6 @@ import com.atguigu.myssm.myspringmvc.ViewBaseServlet;
 import com.atguigu.myssm.util.StringUtil;
 import com.atguigu.util.JDBCUtil;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,15 +19,19 @@ import javax.servlet.http.HttpSession;
 //@WebServlet("/fruit.do")
 public class FruitController extends ViewBaseServlet {
 
+  // 之前FruitServlet是一个Servlet组建，那么其中的init方法一定会被调用
+  // 之前的init方法内部会出现一句话: super.init();
+  // 现在FruitServlet被转换成Controller，所以init方法不会被自动调用
+  // 因此，我们需要手动调用init方法
   private FruitDAO fruitDAO = new FruitDAOImpl();
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    String operate = req.getParameter("operate");
-    if (StringUtil.isEmpty(operate)) {
-      operate = "index";
-    }
+//    String operate = req.getParameter("operate");
+//    if (StringUtil.isEmpty(operate)) {
+//      operate = "index";
+//    }
 
     // 获取当前类中的所有方法
 //    Method[] methods = this.getClass().getDeclaredMethods();
@@ -51,17 +53,17 @@ public class FruitController extends ViewBaseServlet {
 //    throw new RuntimeException("operate值非法!");
 
     // 或者可以这么写
-    try {
-      Method method = this.getClass()
-          .getDeclaredMethod(operate, HttpServletRequest.class, HttpServletResponse.class);
-      method.invoke(this, req, resp);
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException("operate值非法!");
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    } catch (InvocationTargetException e) {
-      throw new RuntimeException(e);
-    }
+//    try {
+//      Method method = this.getClass()
+//          .getDeclaredMethod(operate, HttpServletRequest.class, HttpServletResponse.class);
+//      method.invoke(this, req, resp);
+//    } catch (NoSuchMethodException e) {
+//      throw new RuntimeException("operate值非法!");
+//    } catch (IllegalAccessException e) {
+//      throw new RuntimeException(e);
+//    } catch (InvocationTargetException e) {
+//      throw new RuntimeException(e);
+//    }
 
 //    switch (operate) {
 //      case "index":
