@@ -104,8 +104,8 @@ public class ViewBaseServlet extends HttpServlet {
     resp.setContentType("text/html;charset=UTF-8");
 
     // 2.创建WebContext对象
-//    WebContext webContext = new WebContext(req, resp, getServletContext());
-    WebContext webContext = new WebContext(req, resp, this.servletContext);
+    WebContext webContext = new WebContext(req, resp, getServletContext());
+//    WebContext webContext = new WebContext(req, resp, this.servletContext);
 
     // 3.处理模板数据
     templateEngine.process(templateName, webContext, resp.getWriter());

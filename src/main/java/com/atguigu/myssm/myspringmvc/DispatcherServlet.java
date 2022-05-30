@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,9 +51,9 @@ public class DispatcherServlet extends ViewBaseServlet {
           Class controllerBeanClass = Class.forName(className);
           Object beanObj = controllerBeanClass.newInstance();
 
-          Method initBean = beanObj.getClass().getSuperclass().getDeclaredMethod("init",
-              ServletContext.class);
-          initBean.invoke(beanObj, this.getServletContext());
+//          Method initBean = beanObj.getClass().getSuperclass().getDeclaredMethod("init",
+//              ServletContext.class);
+//          initBean.invoke(beanObj, this.getServletContext());
           beanMap.put(beanId, beanObj);
         }
       }
@@ -69,10 +69,6 @@ public class DispatcherServlet extends ViewBaseServlet {
       e.printStackTrace();
     } catch (IllegalAccessException e) {
       e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      throw new RuntimeException(e);
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException(e);
     } finally {
       try {
         inputStream.close();
@@ -105,16 +101,55 @@ public class DispatcherServlet extends ViewBaseServlet {
     }
 
     try {
-      Method method = controllerBeanObj.getClass()
-          .getDeclaredMethod(operate, HttpServletRequest.class, HttpServletResponse.class);
-      if (method != null) {
-        method.setAccessible(true);
-        method.invoke(controllerBeanObj, req, resp);
-      } else {
-        throw new RuntimeException("operate值非法!");
+//      Method method = controllerBeanObj.getClass()
+//          .getDeclaredMethod(operate, HttpServletRequest.class);
+      Method[] methods = controllerBeanObj.getClass().getDeclaredMethods();
+      for (Method method : methods) {
+        if (operate.equals(method.getName())) {
+          // 1. 统一获取请求参数
+          // 获取当前方法的参数数组，返回参数数组
+          Parameter[] parameters = method.getParameters();
+          // parameterValues 用来承载参数的值
+          Object[] parameterValues = new Object[parameters.length];
+          for (int i = 0; i < parameters.length; ++i) {
+            String parameterName = parameters[i].getName();
+            // 如果参数名是req, resp, session 那么就不是通过请求中获取参数的方式了
+            if ("req".equals(parameterName)) {
+              parameterValues[i] = req;
+            } else if ("resp".equals(parameterName)) {
+              parameterValues[i] = resp;
+            } else if ("session".equals(parameterName)) {
+              parameterValues[i] = req.getSession();
+            } else {
+              // 从请求中获取参数值
+              Object parameterValue = req.getParameter(parameterName);
+              String typeName = parameters[i].getType().getName();
+
+              if (parameterValue != null && "java.lang.Integer".equals(typeName)) {
+                parameterValue = Integer.parseInt((String) parameterValue);
+              }
+              parameterValues[i] = parameterValue;
+            }
+          }
+
+          // 2. controller组件中的方法调用
+          method.setAccessible(true);
+          Object methodReturnObj = method.invoke(controllerBeanObj, parameterValues);
+          String methodReturnStr = "";
+          if (methodReturnObj != null) {
+            methodReturnStr = (String) methodReturnObj;
+          }
+
+          // 3. 视图处理
+          if (methodReturnStr.startsWith("redirect:")) { // 比如: redirect:fruit.do
+            String redirectStr = methodReturnStr.substring("redirect:".length());
+            resp.sendRedirect(redirectStr);
+          } else {
+            super.processTemplate(methodReturnStr, req, resp);
+          }
+        }
       }
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException("operate值非法!");
+
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
     } catch (InvocationTargetException e) {
