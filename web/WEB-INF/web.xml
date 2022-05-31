@@ -14,6 +14,11 @@
     <param-value>.html</param-value>
   </context-param>
 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+
 <!--  配置Demo Servlet-->
   <servlet>
     <servlet-name>AddServlet</servlet-name>
@@ -78,6 +83,23 @@
     <servlet-name>DemoRedirectServlet</servlet-name>
     <url-pattern>/demoRedirect</url-pattern>
   </servlet-mapping>
+  
+<!--  <servlet>-->
+<!--    <servlet-name>DemoInitServlet</servlet-name>-->
+<!--    <servlet-class>com.atguigu.servlets.DemoInitServlet</servlet-class>-->
+<!--    <init-param>-->
+<!--      <param-name>hello</param-name>-->
+<!--      <param-value>world</param-value>-->
+<!--    </init-param>-->
+<!--    <init-param>-->
+<!--      <param-name>uname</param-name>-->
+<!--      <param-value>Steven</param-value>-->
+<!--    </init-param>-->
+<!--  </servlet>-->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>DemoInitServlet</servlet-name>-->
+<!--    <url-pattern>/demoInit</url-pattern>-->
+<!--  </servlet-mapping>-->
 
   <!--
   1. 用户发请求, action=add

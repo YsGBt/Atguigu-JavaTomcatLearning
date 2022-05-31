@@ -210,7 +210,7 @@
       1. 根据url定位到能够处理这个请求的controller组件:
           1) 从url中提取ServletPath: /fruit.do -> fruit
           2) 根据fruit找到对应的组件: FruitController，这个对应的依据我们存储在applicationContext.xml中
-              <bean id="fruit" class="com.atguigu.controllers.FruitController"/>
+              <bean id="fruit" class="com.atguigu.controllers.FruitControllerOld"/>
               通过DOM技术我们去解析XML文件，在中央控制器中形成一个beanMap容器，用来存放所有的Controller组件
           3) 根据获取到的operate的值定位到我们FruitController中需要调用的方法
 
@@ -231,6 +231,116 @@
                 super.processTemplate(methodReturnStr, req, resp);
               }
 
+//////////
+11. 再次学习Servlet的初始化方法init()
+  1) Servlet生命周期: 实例化、初始化、服务、销毁
+  2) Servlet中的初始化方法有两个: init(), init(ServletConfig config)
+     其中带参数的方法代码如下:
+     public void init(ServletConfig config) throes ServletException {
+      this.config = config;
+      this.init();
+     }
+     另一个无参的init方法如下:
+     public void init() throes ServletException {
+     }
+     如果我们想要在Servlet初始化时做一些准备工作，那么我们可以去重写init()方法
+     我们可以通过如下步骤去获取初始化设置的数据
+     - 获取config对象: ServletConfig config = getServletConfig();
+     - 获取初始化参数值: config.getInitParameter(key);
+  3) 在web.xml文件中配置Servlet
+    <servlet>
+      <servlet-name>DemoInitServlet</servlet-name>
+      <servlet-class>com.atguigu.servlets.DemoInitServlet</servlet-class>
+      <init-param>
+        <param-name>hello</param-name>
+        <param-value>world</param-value>
+      </init-param>
+      <init-param>
+        <param-name>uname</param-name>
+        <param-value>Steven</param-value>
+      </init-param>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>DemoInitServlet</servlet-name>
+      <url-pattern>/demoInit</url-pattern>
+    </servlet-mapping>
+  4) 或者也可以通过注解的方式进行配置:
+  @WebServlet(urlPatterns = {"/demoInit", "/demoInit2"},
+      initParams = {
+          @WebInitParam(name = "hello", value = "world"),
+          @WebInitParam(name = "uname", value = "Steven")
+      })
+
+//////////
+12. 学习Servlet中的ServletContext和<context-param>
+  1) 获取ServletContext，有很多方法
+     在初始化方法中: ServletContext servletContext = getServletContext();
+     在服务方法中也可以通过request对象获取 ServletContext servletContext = req.getServletContext();
+     也可以通过session获取 ServletContext servletContext = session.getServletContext();
+  2) 获取初始化值:
+     servletContext.getInitParameter();
+
+//////////
+13. 什么是业务层
+  1) Model1 和 Model2
+  MVC: Model (模型), View (视图), Controller (控制器)
+  视图层: 用于做数据展示以及和用户交互的一个界面
+  控制层: 能够接受客户端的请求，具体的业务功能还是需要借助于模型组件来完成
+  模型层: 模型分为很多种: 有比较简单的pojo/vo(value object)，有业务模型组件，有数据访问层组件
+    1) pojo/vo (Plain Old Java Object): 值对象
+    2) DAO (Data Access Object): 数据访问对象
+    3) BO (Business Object): 业务对象
+    4) DTO (Data Transfer Object): 数据传输对象
+
+  2) 区分业务对象和数据访问对象:
+    1. DAO中的方法都是单精度方法(细粒度方法)。什么叫单精度?一个方法只考虑一个操作，比如添加，那就是insert操作，查询那就是select操作...
+    2. BO中的方法属于业务方法，而实际的业务是比较负载的，因此业务方法的粒度是比较粗的(粗粒度方法)。
+      注册这个功能属于业务功能，也就是说注册这个方法属于业务方法。
+      那么这个业务方法中包含了多个DAO方法。也就是说注册这个业务功能需要通过多个DAO方法的组合调用，从而完成注册功能的开发。
+      注册:
+        1. 检查用户名是否已经被注册 - DAO中的select操作
+        2. 向用户表新增一条新用户记录 - DAO中的insert操作
+        3. 向用户积分表新增一条记录 (新用户默认初始化积分100分) - DAO中的insert操作
+        4. 向系统消息表新增一条记录 (某某某新用户注册了，需要根据通讯录信息向他的联系人推送消息) - DAO中的insert操作
+        5. 向系统日志表新增一条记录 (某用户在某IP在某年某月某日注册) - DAO中的insert操作
+        6. ...
+
+  3) 在库存系统中添加业务层组件
+
+//////////
+14. IOC
+  1) 耦合/依赖 (Dependency)
+    依赖指的是某某某离不开某某某
+    在软件系统中，层与层之间是存在依赖的。我们也称之为耦合。
+    我们系统架构或者设计的一个原则是: 高内聚低耦合。
+    层内部的组成应该是高度聚合的，而层与层之间的关系应该是低耦合的，最理想的情况是0耦合(就是没有耦合)
+
+  2) IOC - 控制反转 / DI - 依赖注入
+     控制反转:
+      1. 之前在Servlet中，我们创建Service对象，FruitService fruitService = new FruitServiceImpl();
+         这句话如果出现在Servlet中的某个方法内部，那么这个fruitService的作用域(生命周期)应该就是这个方法级别；
+         如果这句话出现在Servlet的类中，也就是说fruitService是一个成员变量，那么这个fruitService的作用域(生命周期)应该就是这个Servlet实例级别
+      2. 之后我们在applicationContext.xml中定义了这个fruitService。然后通过解析XML，产生fruitService实例，存放在beanMap中，
+         这个beanMap在一个BeanFactory中。
+         因此，我们转移(改变)了之前的Service实例、DAO实例等等他们的生命周期。控制权从程序员转移到BeanFactory。这个现象我们称之为控制反转
+
+     依赖注入：
+      1. 之前我们在控制层出现代码: FruitService fruitService = new FruitServiceImpl();
+         那么，控制层Controller和Service层存在耦合
+      2. 之后，我们将代码修改成 FruitService fruitService = null;
+         然后，在配置文件中配置:
+         <bean id="fruit" class="FruitController">
+            <property name="fruitService" ref="fruitService"/>
+         </bean>
+
+//////////
+15. 过滤器Filter
+
+//////////
+16. 事务管理 (TransActionManager, ThreadLocal, OpenSessionInViewFilter)
+
+//////////
+17. 监听器 (Listener, ContextLoaderListener)
 
 //////////
 常见错误:
