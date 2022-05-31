@@ -76,7 +76,8 @@ public class DispatcherServlet extends ViewBaseServlet {
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     // 设置编码
-    req.setCharacterEncoding("UTF-8");
+    // 这里的设置编码已经在拦截器CharacterEncodingFilter中进行了实现
+//    req.setCharacterEncoding("UTF-8");
 
     // 假设url是: http://localhost:8080/Atguigu_JavaTomcatLearning_Web_exploded/hello.do
     // 那么Servlet是: /hello.do

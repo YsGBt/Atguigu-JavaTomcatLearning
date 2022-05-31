@@ -101,6 +101,15 @@
 <!--    <url-pattern>/demoInit</url-pattern>-->
 <!--  </servlet-mapping>-->
 
+<!--  <filter>-->
+<!--    <filter-name>DemoFilter</filter-name>-->
+<!--    <filter-class>com.atguigu.filters.DemoFilter01</filter-class>-->
+<!--  </filter>-->
+<!--  <filter-mapping>-->
+<!--    <filter-name>DemoFilter</filter-name>-->
+<!--    <url-pattern>/demoFilter.do</url-pattern>-->
+<!--  </filter-mapping>-->
+
   <!--
   1. 用户发请求, action=add
   2. 项目中, web.xml中找到url-pattern = /add -> 第12行
