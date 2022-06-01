@@ -55,7 +55,8 @@ public class ConnUtil {
     Connection conn = threadLocal.get();
     if (conn != null && !conn.isClosed()) {
       conn.close();
-      threadLocal.set(null);
+//      threadLocal.set(null);
+      threadLocal.remove();
     }
   }
 

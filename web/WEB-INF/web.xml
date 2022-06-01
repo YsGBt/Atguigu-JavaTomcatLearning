@@ -15,6 +15,11 @@
   </context-param>
 
   <context-param>
+    <param-name>applicationContextLocation</param-name>
+    <param-value>applicationContext.xml</param-value>
+  </context-param>
+
+  <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
@@ -109,6 +114,10 @@
 <!--    <filter-name>DemoFilter</filter-name>-->
 <!--    <url-pattern>/demoFilter.do</url-pattern>-->
 <!--  </filter-mapping>-->
+  
+<!--  <listener>-->
+<!--    <listener-class>com.atguigu.listener.MyServletContextListener</listener-class>-->
+<!--  </listener>-->
 
   <!--
   1. 用户发请求, action=add

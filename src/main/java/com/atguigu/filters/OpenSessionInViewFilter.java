@@ -9,9 +9,9 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 
-@WebFilter("*.do")
+//TODO: 目前还未实现基于ConnUtil的DAO，因此未配置此Filter
+//@WebFilter("*.do")
 public class OpenSessionInViewFilter implements Filter {
 
   @Override

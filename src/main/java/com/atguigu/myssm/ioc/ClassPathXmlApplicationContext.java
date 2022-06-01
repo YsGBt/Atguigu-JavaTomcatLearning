@@ -1,5 +1,6 @@
-package com.atguigu.myssm.io;
+package com.atguigu.myssm.ioc;
 
+import com.atguigu.myssm.util.StringUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -19,10 +20,17 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
   private Map<String, Object> beanMap = new HashMap<>();
 
   public ClassPathXmlApplicationContext() {
+    this("applicationContext.xml");
+  }
+
+  public ClassPathXmlApplicationContext(String path) {
+    if (StringUtil.isEmpty(path)) {
+      throw new RuntimeException("IOC容器的配置文件没有指定...");
+    }
     InputStream inputStream = null;
     try {
       inputStream = getClass().getClassLoader()
-          .getResourceAsStream("applicationContext.xml");
+          .getResourceAsStream(path);
       // 1. 创建DocumentBuilderFactory
       DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
       // 2. 创建DocumentBuilder对象
