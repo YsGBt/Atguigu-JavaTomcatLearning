@@ -119,6 +119,33 @@
 <!--    <listener-class>com.atguigu.listener.MyServletContextListener</listener-class>-->
 <!--  </listener>-->
 
+  <!-- 验证码 -->
+  <servlet>
+    <servlet-name>KaptchaServlet</servlet-name>
+    <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+
+    <init-param>
+      <param-name>kaptcha.border.color</param-name>
+      <param-value>red</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>kaptcha.textproducer.char.string</param-name>
+      <param-value>abcdefg</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>kaptcha.noise.impl</param-name>
+      <param-value>com.google.code.kaptcha.impl.DefaultNoise</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>KaptchaServlet</servlet-name>
+    <!-- img src 指定格式 -->
+    <url-pattern>/kaptcha.jpg</url-pattern>
+  </servlet-mapping>
+
   <!--
   1. 用户发请求, action=add
   2. 项目中, web.xml中找到url-pattern = /add -> 第12行

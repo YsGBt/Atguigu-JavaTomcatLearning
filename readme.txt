@@ -396,6 +396,47 @@
   8) HttpSessionActivationListener - 监听某个对象在Session域中的序列号与反序列化
 
 //////////
+18. Cookie
+    1) 创建Cookie对象
+
+    2) 在客户端保存Cookie
+
+    3) 设置Cookie的有效时常
+       cookie.setMaxAge(60), 设置cookie的有效时常为60秒
+      - 会话级Cookie
+        服务器端并没有明确指定Cookie的存在时间
+        在浏览器端，Cookie数据存在于内存中
+        只要浏览器还开着，Cookie数据就一直都在
+        浏览器关闭，内存中的Cookie数据就会被释放
+      - 持久化Cookie
+        服务器端明确设置了Cookie的存在时间
+        在浏览器端，Cookie数据会被保存到硬盘上
+        Cookie在硬盘上存在的时间根据服务器端限定的时间来管控，不受浏览器关闭的影响
+        持久化Cookie到达了预设的时间会被释放
+
+    4) 设置Cookie的domain和path
+       cookie.setDomain(pattern);
+       cookie.setPath(uri);
+
+    5) Cookie的应用:
+       - 记住用户名和密码10天: cookie.setMaxAge(60 * 60 * 24 * 10)
+       - 十天免登录
+
+//////////
+19. Kaptcha
+    1) 为什么需要验证码: 防止恶意请求
+    2) Kaptcha如何使用:
+       - 添加jar
+       - 在web.xml文件中注册KaptchaServlet, 并设置验证码图片的相关属性
+       - 在html页面上编写一个img标签，然后设置src等于KaptchaServlet对应的url-pattern
+    3) Kaptcha验证码图片的各个属性在常量接口: Constants中
+    4) KaptchaServlet在生成验证码图片时，会同时将验证码信息保存到session中
+       因此，我们在注册请求时，首先将用户文本框中输入的验证码值和session中保存的值进行比较，相等，则进行注册
+
+//////////
+20. JS - Exp
+
+//////////
 常见错误:
 IllegalArgumentException: argument type mismatch
 
