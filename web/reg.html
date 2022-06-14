@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script>
+    // // var reg = new RegExp("abc");
+    // var reg = /o/gi; // g表示匹配的模式，表示全文匹配
+    // var str = "aOjssdof";
+    // var flag = reg.test(str);
+    // var newStr = str.replace(reg, '_');
+    // console.log(flag);
+    // console.log(newStr);
+    //
+    // var reg2 = /hello$/gim; // $表示匹配以hello结尾的
+    // var str2 = "Hello\nworld";
+    // var flag2 = reg2.test(str2);
+    // console.log(flag2);
+    //
+    // var reg3 = /\w/gim; // \w 表示字母下划线或者数字
+    // var str3 = "a>b_c|d\nf?g";
+    // var newStr3 = str3.replace(reg3, "A");
+    // console.log(newStr3);
+    //
+    // var reg4 = /\s/gim; // \s 表示匹配空白符，例如匹配 换行符、制表符...
+    // var str4 = "a>b_c|d\nf?g";
+    // var newStr4 = str4.replace(reg4, "A");
+    // console.log(newStr4);
+    //
+    // var reg5 = /\d/gim; // \d 表示匹配数字 0-9, \D 表示匹配非数字
+    // var str5 = "a>5";
+    // var newStr5 = str5.replace(reg5, "A");
+    // console.log(newStr5);
+    //
+    // var reg6 = /\b/gim; // \b 表示匹配单词的开始和结束
+    // var str6 = "hello world";
+    // var newStr6 = str6.replace(reg6, "A"); // -> AhelloA AworldA
+    // console.log(newStr6);
+    //
+    // var reg7 = /^a/gim; // ^ 表示匹配开始， $表示匹配结尾
+    // var str7 = "ahello world";
+    // var newStr7 = str7.replace(reg7, "A");
+    // console.log(newStr7);
+    //
+    // var reg8 = /[abc]/gim; // [] 表示集合，表示只要有a，b，c中的其中一个就匹配。如果没有[]，表示必须精确匹配abc
+    // var str8 = "abhello worldc";
+    // var newStr8 = str8.replace(reg8, "A");
+    // console.log(newStr8);
+    //
+    // var reg9 = /[^a-c]/gim; // [^] 中括号中的^表示取反, [ - ] 中括号中的-表示范围
+    // var str9 = "abhello worldc";
+    // var newStr9 = str9.replace(reg9, "A");
+    // console.log(newStr9);
+    //
+    // var reg9 = /[l]{2}/gim; // {n} 表示出现n次，{n, } 表示出现n或更多次，{n, m} 表示出现n到m次
+    // var str9 = "abhello worldc";
+    // var newStr9 = str9.replace(reg9, "A");
+    // console.log(newStr9);
+
+    var reg10 = /a|b/gim; // | 表示或者， a或者b
+    var str10 = "abhello worldc";
+    var newStr10 = str10.replace(reg10, "A");
+    console.log(newStr10);
+  </script>
+</head>
+<body>
+
+</body>
+</html>
