@@ -465,6 +465,50 @@
      {n,m} 表示n次到m次  ( n ~ m )
 
 //////////
+21. 原生Ajax (了解)
+    第一步: 客户端发送异步请求；并绑定对结果处理的回调函数
+    1) <input type="text" name="uname" onblur="checkUname(this.value)"/>
+    2) 定义checkUname方法:
+       - 创建XMLHttpRequest对象
+       - XMLHttpRequest对象操作步骤:
+         - open("Get", url, true)
+         - onreadystatechange 设置回调
+         - send() 发送请求
+       - 在回调函数中需要判断XMLHttpRequest对象的状态:
+         - readyState (0-4), status (200)
+
+    第二步: 服务器端做校验，然后将校验结果响应给客户端
+
+//////////
+22. Ajax: 异步的JavaScript and XML
+    目的: 用来发送异步的请求，然后当服务器给我响应的时候再进行回调操作
+    好处: 提高用户体验；局部刷新: 降低服务器负担、减轻浏览器压力、减轻网络带宽压力
+    开发步骤:
+      1) 创建XMLHTTPRequest
+      2) 调用open进行设置: .open("GET", URI, true);
+      3) 绑定状态改变时执行的回调函数 - onreadystatechange
+      4) 发送请求 - send()
+      5) 编写回调函数，在回调函数中，我们只对XMLHTTPRequest的readystate为4时感兴趣，我们只对XMLHTTPRequest的status为200时感兴趣
+
+         0: (Uninitialized) the send() method has not yet been invoked
+         1: (Loading) the send() method has been invoked, request in progress
+         2: (Loaded) the send() method has completed, entire response received
+         3: (Interactive) the response is being parsed
+         4: (Completed) the response has been parsed, is ready for harvesting
+
+         0 - (未初始化) 还没有调用send()方法
+         1 - (载入) 已调用send()方法，正在发送请求
+         2 - (载入完成) send()方法执行完成，已经接收到全部响应内容
+         3 - (交互) 正在解析响应内容
+         4 - (完成) 响应内容解析完成，可以在客户端调用了
+
+//////////
+23. Vue
+
+//////////
+24. Axios
+
+//////////
 常见错误:
 IllegalArgumentException: argument type mismatch
 
