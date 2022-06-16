@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="js/vue.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script>
+    window.onload = function () {
+      let vue = new Vue({
+        "el": "#axios",
+        "data": {
+          uname: "lina",
+          pwd: "ok"
+        },
+        "methods": {
+          axios01: function () {
+            axios({
+              method: "POST",
+              url: "axiosServlet",
+              params: {
+                uname: vue.uname,
+                pwd: vue.pwd
+              }
+            })
+              .then(function (value) { // 成功响应时执行的回调 value.data可以获取到服务器响应的内容
+                console.log(value); // -> {data: '西瓜_ok', status: 200, statusText: '', headers: {…}, config: {…}, …}
+              })
+              .catch(function (reason) { // 有异常时执行的回调 reason.response.data可以获取到响应的内容
+                console.log(reason);     //                 reason.message / reason.stack 可以查看错误的信息
+              })
+          }
+        }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="axios">
+    uname: <input type="text" v-model="uname"><br>
+    pwd: <input type="text" v-model="pwd"><br>
+    <input type="button" @click="axios01" value="发送一个带不同请求参数值的异步请求">
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="js/vue.js"></script>
+  <script>
+    window.onload = function () {
+      let lifecycle = new Vue({
+        el: "#lifecycle",
+        data: {
+          msg: "Hello World"
+        },
+        methods: {
+          changeMsg: function () {
+            this.msg = this.msg + "!";
+          }
+        },
+        // vue对象创建之前
+        beforeCreate: function () {
+          console.log("beforeCreate: vue对象创建之前-----------");
+          console.log("msg:" + this.msg); // -> Undefined
+        },
+        // vue对象创建之后
+        created: function () {
+          console.log("created: vue对象创建之后-----------");
+          console.log("msg:" + this.msg); // -> Hello World
+        },
+        // 数据装载之前
+        beforeMount: function () {
+          console.log("beforeMount: 数据装载之前-----------");
+          console.log("msg in span:" + document.getElementById("span").innerText); // -> {{msg}}
+        },
+        // 数据装载之后
+        mounted: function () {
+          console.log("mounted: 数据装载之后-----------");
+          console.log("msg in span:" + document.getElementById("span").innerText); // -> Hello World
+        },
+        // 数据更新之前
+        beforeUpdate: function () { 
+          console.log("beforeUpdate: 数据更新之前-----------");
+          console.log("msg:" + this.msg); // -> Hello World!
+          console.log("msg in span:" + document.getElementById("span").innerText); // -> Hello World
+        },
+        // 数据更新之后
+        updated: function () { 
+          console.log("updated: 数据更新之后-----------");
+          console.log("msg:" + this.msg); // -> Hello World!
+          console.log("msg in span:" + document.getElementById("span").innerText); // -> Hello World!
+        },
+        beforeDestory: function () { },
+        destoryed: function () { }
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="lifecycle">
+    <span id="span">{{msg}}</span>
+    <input type="button" value="改变msg的值" @click="changeMsg">
+  </div>
+</body>
+
+</html>

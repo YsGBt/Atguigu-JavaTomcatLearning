@@ -504,9 +504,44 @@
 
 //////////
 23. Vue
+    1) {{}} - 相当于innerText
+    2) v-bind:attr 绑定属性值。 例如 v-bind:value - 绑定value值
+       简写 :value
+    3) v-model 双向绑定
+       v-model:value 简写 v-model
+    4) v-if, v-else, v-show
+       - v-if和v-else之间不能有其他节点
+       - v-show是通过样式表display来控制节点是否显示
+    5) v-for 迭代
+       v-for="fruit in fruitList"
+    6) v-on 绑定事件
+    7) 其他:
+       - trim 去除首尾空格, split(), join()
+       - watch 表示侦听属性
+       - 生命周期
 
 //////////
 24. Axios
+    Axios是Ajax的一个框架，简化Ajax操作
+    Axios执行Ajax操作的步骤:
+    1) 添加并引入axios的js文件
+    2) a. 客户端向服务器端异步发送普通参数值
+          - 基本格式: axios().then().catch()
+          - 示例:
+            axios({
+                    method: "POST",
+                    url: "...",
+                    params: {
+                      uname: vue.uname,
+                      pwd: vue.pwd
+                    }
+                  })
+                    .then(function (value) {
+
+                    })
+                    .catch(function (reason) {
+
+                    })
 
 //////////
 常见错误:
