@@ -536,13 +536,10 @@
                       pwd: vue.pwd
                     }
                   })
-                    .then(function (value) {
-
-                    })
-                    .catch(function (reason) {
-
-                    })
-
+                    .then(function (value) { })      // 成功响应时执行回调    value.data可以获取到服务器响应内容
+                    .catch(function (reason) { });   // 有异常时执行的回调    reason.response.data可以获取到响应的内容
+                                                                           reason.message / reason.stack 可以查看错误的信息
+                                                                           
 //////////
 常见错误:
 IllegalArgumentException: argument type mismatch
