@@ -531,7 +531,7 @@
             axios({
                     method: "POST",
                     url: "...",
-                    params: {
+                    params: {                        // 注意这里是params
                       uname: vue.uname,
                       pwd: vue.pwd
                     }
@@ -539,6 +539,50 @@
                     .then(function (value) { })      // 成功响应时执行回调    value.data可以获取到服务器响应内容
                     .catch(function (reason) { });   // 有异常时执行的回调    reason.response.data可以获取到响应的内容
                                                                            reason.message / reason.stack 可以查看错误的信息
+
+       b. 客户端向服务器发送JSON格式的数据
+          - 什么是JSON
+            JSON是一种数据格式
+            XML也是一种数据格式
+
+            XML格式表示两个学员信息的代码如下:
+            <students>
+              <student sid="s001">
+                <sname>jim</sname>
+                <age>18</age>
+              </student>
+              <student sid="s002">
+                <sname>tom</sname>
+                <age>19</age>
+              </student>
+            </students>
+
+            JSON格式表示两个学员的代码如下:
+            [{sid:"s001", sname:"jim", age:18}, {sid:"s002", sname:"tom", age:19}}]
+
+          - JSON表达数据更简洁，更能够节约网络带宽
+          - 客户端发送JSON格式的数据给服务器端
+            1. 客户端中params需要求改成: data:
+            2. 服务器获取参数值不再是 request.getParameter()...
+               而是:
+               StringBuffer stringBuffer = new StringBuffer();
+               BufferedReader bufferedReader = req.getReader();
+               String str = null;
+               while ((str = bufferedReader.readLine()) != null) {
+                 stringBuffer.append(str);
+               }
+               bufferedReader.close();
+               str = stringBuffer.toString(); // -> {"uname":"lina,"pwd":"ok"}
+
+            3. 我们会发现 str 的内容如下：
+               {"uname":"lina,"pwd":"ok"}
+               使用Gson:
+                  Gson 有两个API
+                    1) fromJson(string, T) 将字符串转化成java object
+                    2) toJson(Java Object) 将 java object转化成json字符串，这样才能响应给客户端
+
+          - 服务器端给客户端响应JSON格式的字符串，然后客户端需要将字符串转化成 javascript object
+
                                                                            
 //////////
 常见错误:
